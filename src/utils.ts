@@ -19,10 +19,12 @@ export class Utils {
         let fileName: string = Utils.getCliExecutableName();
         let cliDir: string = toolCache.find(fileName, version);
         if (cliDir) {
+            core.debug('jfrog already downloaded to ' + cliDir);
             core.addPath(cliDir);
             return path.join(cliDir, fileName);
         }
         let url: string = Utils.getCliUrl(version, fileName);
+        core.debug('Downloading jfrog cli')
         let downloadDir: string = await toolCache.downloadTool(url);
         cliDir = await toolCache.cacheFile(downloadDir, fileName, fileName, version);
         let cliPath: string = path.join(cliDir, fileName);
